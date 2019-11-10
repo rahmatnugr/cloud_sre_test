@@ -17,3 +17,7 @@ Backend App deployment moved to AWS Elastic Kubernetes Service. Communication be
 
 
 Diagram are accessible here: [draw.io](https://drive.google.com/file/d/1wDYrGmQ9Zd_guG8geJarMYNz1egOghnU/view?usp=sharing)
+
+---
+
+## Apply _Solution 2_ with Terraform
