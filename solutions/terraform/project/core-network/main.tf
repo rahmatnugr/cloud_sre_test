@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 0.12, < 0.13"
 
   backend "s3" {
-    bucket  = var.remote_bucket_state
+    bucket  = var.remote_state_bucket
     key     = "${terraform-workspace}/core-network.tfstate"
     encrypt = true
     region  = var.aws_region
