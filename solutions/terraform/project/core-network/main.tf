@@ -96,12 +96,14 @@ module "alb_sg" {
 
   rules = [
     {
-      type        = "ingress"
-      from_port   = 80
-      to_port     = 80
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-      description = "Public ingress for ALB"
+      type                     = "ingress"
+      from_port                = 80
+      to_port                  = 80
+      protocol                 = "tcp"
+      cidr_blocks              = ["0.0.0.0/0"]
+      self                     = null
+      source_security_group_id = null
+      description              = "Public ingress for ALB"
     }
   ]
 }
@@ -109,10 +111,11 @@ module "alb_sg" {
 module "alb" {
   source = "../../modules/networking/alb"
 
-  name_prefix = "${terraform.workspace}_chatapp"
+  name_prefix = "${terraform.workspace}-chatapp"
 
+  vpc_id          = module.vpc.id
   security_groups = [module.alb_sg.id]
-  subnets         = module.pub_subnet.igw_subnet_ids
+  subnets         = module.pub_subnet.subnet_ids
 
   is_stickiness = true
 
