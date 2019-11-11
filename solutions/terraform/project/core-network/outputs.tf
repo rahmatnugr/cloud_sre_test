@@ -17,3 +17,11 @@ output "pub_subnet_ids" {
 output "priv_fargate_subnet_ids" {
   value = module.priv_fargate_subnet.subnet_ids
 }
+
+output "alb_id" {
+  value = module.alb.id
+}
+
+output "alb_dns_name" {
+  value = module.alb.dns_name
+}
