@@ -13,7 +13,8 @@ terraform {
 provider "aws" {
   version = "~> 2.0"
 
-  region = var.aws_region
+  region  = var.aws_region
+  profile = var.aws_profile
 }
 
 data "aws_availability_zones" "available" {
@@ -72,6 +73,36 @@ module "priv_fargate_subnet" {
     Group       = "chatapp_priv_fargate_subnet"
     Environment = terraform.workspace
   }
+}
+
+module "fargate_sg" {
+  source = "../../modules/networking/security-group"
+
+  name   = "${terraform.workspace}_chatapp_fargate_sg"
+  vpc_id = module.vpc.id
+
+  rules = [
+    {
+      type                     = "ingress"
+      from_port                = 80
+      to_port                  = 80
+      protocol                 = "tcp"
+      cidr_blocks              = null
+      self                     = null
+      source_security_group_id = module.alb_sg.id
+      description              = "Public ingress for Chatapp Fargate Task"
+    },
+    {
+      type                     = "egress"
+      from_port                = 0
+      to_port                  = 0
+      protocol                 = "-1"
+      cidr_blocks              = ["0.0.0.0/0"]
+      self                     = null
+      source_security_group_id = null
+      description              = "Public egress for Chatapp Fargate Task"
+    }
+  ]
 }
 
 module "routing" {
