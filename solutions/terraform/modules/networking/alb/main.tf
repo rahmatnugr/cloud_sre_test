@@ -10,7 +10,7 @@ resource "aws_alb" "alb" {
   security_groups    = var.security_groups
   subnets            = var.subnets
 
-  enable_deletion_protection = true
+  enable_deletion_protection = var.enable_deletion_protection
 
   access_logs {
     enabled = var.is_logs

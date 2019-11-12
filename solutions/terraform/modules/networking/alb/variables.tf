@@ -7,6 +7,11 @@ variable "vpc_id" {
   type = string
 }
 
+variable "enable_deletion_protection" {
+  type    = bool
+  default = false
+}
+
 variable "is_internal" {
   type    = bool
   default = false
