@@ -69,7 +69,7 @@ module "priv_fargate_subnet" {
   is_public   = false
 
   tags = {
-    Group       = "chatapp_pub_subnet"
+    Group       = "chatapp_priv_fargate_subnet"
     Environment = terraform.workspace
   }
 }
@@ -104,6 +104,16 @@ module "alb_sg" {
       self                     = null
       source_security_group_id = null
       description              = "Public ingress for ALB"
+    },
+    {
+      type                     = "egress"
+      from_port                = 0
+      to_port                  = 0
+      protocol                 = "-1"
+      cidr_blocks              = ["0.0.0.0/0"]
+      self                     = null
+      source_security_group_id = null
+      description              = "Public egress for ALB"
     }
   ]
 }
