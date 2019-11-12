@@ -18,6 +18,10 @@ output "priv_fargate_subnet_ids" {
   value = module.priv_fargate_subnet.subnet_ids
 }
 
+output "alb_sg_id" {
+  value = module.alb_sg.id
+}
+
 output "alb_id" {
   value = module.alb.id
 }
