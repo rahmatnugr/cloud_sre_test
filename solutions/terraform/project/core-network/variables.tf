@@ -13,7 +13,7 @@ variable "aws_region" {
 variable "aws_profile" {
   description = "Profile in AWS credentials file to be used"
   type        = string
-  default     = "default"
+  default     = "infradev"
 }
 
 variable "cidr" {
