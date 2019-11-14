@@ -33,3 +33,11 @@ output "alb_id" {
 output "alb_dns_name" {
   value = module.alb.dns_name
 }
+
+output "igw_route_id" {
+  value = module.routing.igw_route_id
+}
+
+output "natgw_route_id" {
+  value = module.routing.natgw_route_id
+}
