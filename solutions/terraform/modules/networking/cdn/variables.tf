@@ -21,7 +21,11 @@ variable "default_root_object" {
 }
 
 variable "origins" {
-  type = list(map())
+  type = list(object({
+    domain_name            = string
+    origin_id              = string
+    origin_protocol_policy = string
+  }))
 }
 
 variable "viewer_protocol_policy" {
@@ -64,7 +68,19 @@ variable "default_cache_max_ttl" {
 }
 
 variable "ordered_cache_behaviors" {
-  type = list(map())
+  type = list(object({
+    path_pattern           = string
+    viewer_protocol_policy = string
+    cache_compress         = bool
+    allowed_methods        = list(string)
+    cached_methods         = list(string)
+    target_origin_id       = string
+    min_ttl                = number
+    default_ttl            = number
+    max_ttl                = number
+    forward_query_string   = bool
+    forward_cookies        = string
+  }))
 }
 
 variable "tags" {

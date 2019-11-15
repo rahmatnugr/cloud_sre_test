@@ -33,4 +33,3 @@ output "cdn_domain_name" {
 output "cdn_hosted_zone_id" {
   value = aws_cloudfront_distribution.cdn.hosted_zone_id
 }
-

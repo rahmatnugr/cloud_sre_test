@@ -25,13 +25,14 @@ resource "aws_cloudfront_distribution" "cdn" {
     content {
       domain_name = origin.value.domain_name
       origin_id   = origin.value.origin_id
-    }
 
-    custom_origin_config {
-      http_port              = "80"
-      https_port             = "443"
-      origin_protocol_policy = origin.value.origin_protocol_policy
-      origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+
+      custom_origin_config {
+        http_port              = "80"
+        https_port             = "443"
+        origin_protocol_policy = origin.value.origin_protocol_policy
+        origin_ssl_protocols   = ["TLSv1", "TLSv1.1", "TLSv1.2"]
+      }
     }
   }
 
@@ -68,6 +69,9 @@ resource "aws_cloudfront_distribution" "cdn" {
 
       forwarded_values {
         query_string = ordered_cache_behavior.value.forward_query_string
+        cookies {
+          forward = ordered_cache_behavior.value.forward_cookies
+        }
       }
     }
   }
@@ -81,7 +85,7 @@ resource "aws_cloudfront_distribution" "cdn" {
   }
 
   viewer_certificate {
-    acm_certificate_arn = "${aws_acm_certificate.certificate.arn}"
+    acm_certificate_arn = "${aws_acm_certificate.cert.arn}"
     ssl_support_method  = "sni-only"
   }
 
