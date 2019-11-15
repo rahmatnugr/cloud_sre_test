@@ -34,6 +34,10 @@ output "alb_dns_name" {
   value = module.alb.dns_name
 }
 
+output "alb_target_group_arn" {
+  value = module.alb.target_group_arn
+}
+
 output "public_route_id" {
   value = module.gw.route_table_public
 }
