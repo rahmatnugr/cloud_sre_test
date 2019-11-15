@@ -25,7 +25,7 @@ data "terraform_remote_state" "core_network" {
   backend = "s3"
   config = {
     bucket  = var.remote_state_bucket
-    key     = "env:/${terraform.workspace}/core_network.tfstate"
+    key     = "env:/${terraform.workspace}/core-network.tfstate"
     region  = var.aws_region
     profile = var.aws_profile
   }
@@ -52,6 +52,7 @@ locals {
 # ----
 # CDN Module
 # Register S3 domain (frontend) and ALB (backend) as origin for CDN
+# Read this before: https://stackoverflow.com/questions/55084436/accessdeniedexception-while-creating-aws-web-cloudfront-distribution
 # ----
 module "cdn" {
   source = "../../modules/networking/cdn"
@@ -75,7 +76,7 @@ module "cdn" {
   ordered_cache_behaviors = [
     {
       path_pattern           = "/api"
-      viewer_protocol_policy = ""
+      viewer_protocol_policy = "allow-all"
       cache_compress         = true
       allowed_methods        = ["GET", "HEAD", "POST"]
       cached_methods         = ["GET", "HEAD", "POST"]
@@ -83,11 +84,12 @@ module "cdn" {
       min_ttl                = 0
       default_ttl            = 0
       max_ttl                = 0
-      query_string           = true
+      forward_query_string   = true
+      forward_cookies        = "none"
     },
     {
       path_pattern           = "/api/*"
-      viewer_protocol_policy = ""
+      viewer_protocol_policy = "allow-all"
       cache_compress         = true
       allowed_methods        = ["GET", "HEAD", "POST"]
       cached_methods         = ["GET", "HEAD", "POST"]
@@ -95,9 +97,10 @@ module "cdn" {
       min_ttl                = 0
       default_ttl            = 0
       max_ttl                = 0
-      query_string           = true
+      forward_query_string   = true
+      forward_cookies        = "none"
     }
-  ],
+  ]
 
   tags = {
     Environment = terraform.workspace
@@ -111,10 +114,10 @@ module "cdn" {
 module "dns" {
   source = "../../modules/networking/dns"
 
-  name_prefix = "${terraform.workspace}_chatapp"
+  name_prefix      = "${terraform.workspace}_chatapp"
   root_domain_name = var.domain_name
-  ttl = "30"
-  
+  ttl              = "30"
+
   dns_records = [
     {
       name = "*"
@@ -124,9 +127,9 @@ module "dns" {
       ]
     },
     {
-      name = module.cdn.cert_domain_validation.resource_record_name
-      type = module.cdn.cert_domain_validation.resource_record_type
-      records = [module.cdn.cert_domain_validation.resource_record_value]
+      name    = module.cdn.cert_domain_validation.0.resource_record_name
+      type    = module.cdn.cert_domain_validation.0.resource_record_type
+      records = [module.cdn.cert_domain_validation.0.resource_record_value]
     }
   ]
 

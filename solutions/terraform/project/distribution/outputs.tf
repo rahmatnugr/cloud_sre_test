@@ -13,6 +13,10 @@ output "cdn_domain_name" {
   value = module.cdn.cdn_domain_name
 }
 
+output "cdn_cert_validation" {
+  value = module.cdn.cert_domain_validation
+}
+
 # ----
 # DNS related output
 # ----
