@@ -34,10 +34,10 @@ output "alb_dns_name" {
   value = module.alb.dns_name
 }
 
-output "igw_route_id" {
-  value = module.routing.igw_route_id
+output "public_route_id" {
+  value = module.gw.route_table_public
 }
 
-output "natgw_route_id" {
-  value = module.routing.natgw_route_id
+output "private_route_id" {
+  value = module.gw.route_table_private
 }
