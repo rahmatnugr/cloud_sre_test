@@ -15,6 +15,10 @@ resource "aws_db_subnet_group" "aurora" {
 
 }
 
+resource "random_id" "aurora" {
+  byte_length = 4
+}
+
 resource "aws_rds_cluster" "aurora" {
   cluster_identifier = "${var.name_prefix}-aurora"
 
@@ -32,7 +36,8 @@ resource "aws_rds_cluster" "aurora" {
   backup_retention_period      = var.backup_retention_period
   preferred_backup_window      = var.preferred_backup_window
   preferred_maintenance_window = var.preferred_maintenance_window
-  final_snapshot_identifier    = "${var.name_prefix}-aurora"
+  final_snapshot_identifier    = "${var.name_prefix}-aurora-${random_id.aurora.hex}"
+  skip_final_snapshot          = true
 
   lifecycle {
     create_before_destroy = true
