@@ -64,3 +64,11 @@ variable "aurora_db_master_password" {
   description = "Aurora database master password"
   type        = string
 }
+
+# ----
+# S3 related variable 
+# ----
+variable "domain_name" {
+  description = "Domain name for app"
+  type        = string
+}

@@ -65,6 +65,20 @@ module "priv_aurora_subnet" {
   }
 }
 
+# Concat all subnets in datastores
+locals {
+  datastore_subnet_ids = concat(module.priv_redis_subnet.subnet_ids, module.priv_aurora_subnet.subnet_ids)
+}
+
+# Associate all subnets with private subnet's route table
+resource "aws_route_table_association" "data_stores" {
+  count = length(local.datastore_subnet_ids)
+
+  subnet_id      = local.datastore_subnet_ids[count.index]
+  route_table_id = data.terraform_remote_state.core_network.outputs.private_route_id
+}
+
+
 # ----
 # Security Group for data stores
 # ----
@@ -173,3 +187,13 @@ module "aurora_cluster" {
 # S3 Bucket for static frontend
 # ----
 
+module "s3_www" {
+  source = "../../modules/data-stores/s3-www"
+
+  bucket_name = replace("${terraform.workspace}-chatapp-${var.domain_name}", ".", "")
+  aws_region  = var.aws_region
+
+  tags = {
+    Environment = terraform.workspace
+  }
+}
