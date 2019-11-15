@@ -3,12 +3,12 @@ terraform {
 }
 
 resource "aws_elasticache_subnet_group" "cache" {
-  name       = "${var.name_prefix}_elasticache_subnet_group"
+  name       = "${var.name_prefix}-elasticache-subnet-group"
   subnet_ids = var.subnet_ids
 }
 
 resource "aws_elasticache_parameter_group" "cache" {
-  name = "${var.name_prefix}_elasticache_parameter_group"
+  name = "${var.name_prefix}-elasticache-parameter-group"
 
   family = var.family
 
@@ -29,7 +29,6 @@ resource "aws_elasticache_replication_group" "cache" {
   port                          = var.port
   parameter_group_name          = aws_elasticache_parameter_group.cache.name
   automatic_failover_enabled    = var.automatic_failover_enabled
-  availability_zones            = var.availability_zones
   engine                        = var.engine
   engine_version                = var.engine_version
   subnet_group_name             = aws_elasticache_subnet_group.cache.name
@@ -38,6 +37,8 @@ resource "aws_elasticache_replication_group" "cache" {
   transit_encryption_enabled    = var.transit_encryption_enabled
   snapshot_window               = var.snapshot_window
   snapshot_retention_limit      = var.snapshot_retention_limit
+  # availability_zones            = var.availability_zones
+  # number_cache_clusters         = length(var.availability_zones)
 
 
   cluster_mode {

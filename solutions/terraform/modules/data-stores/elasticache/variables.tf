@@ -13,8 +13,13 @@ variable "family" {
 }
 
 variable "parameters" {
-  type    = list(map(string))
-  default = []
+  type = list(map(string))
+  default = [
+    {
+      name  = "cluster-enabled"
+      value = "yes"
+    }
+  ]
 }
 
 variable "replication_group_id" {
@@ -84,7 +89,7 @@ variable "snapshot_retention_limit" {
 
 variable "replicas_per_node_group" {
   type    = number
-  default = 0
+  default = 1
 }
 
 variable "num_node_groups" {
