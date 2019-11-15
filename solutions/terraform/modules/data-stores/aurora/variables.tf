@@ -24,7 +24,7 @@ variable "engine" {
 
 variable "engine_version" {
   type    = string
-  default = "5.7.mysql_aurora.2.03.2"
+  default = "5.7.12"
 }
 
 variable "db_name" {
@@ -77,6 +77,16 @@ variable "seconds_until_auto_pause" {
 variable "timeout_action" {
   type    = string
   default = "ForceApplyCapacityChange"
+}
+
+variable "instance_class" {
+  type    = string
+  default = "db.t2.small"
+}
+
+variable "publicly_accessible" {
+  type    = bool
+  default = false
 }
 
 variable "tags" {

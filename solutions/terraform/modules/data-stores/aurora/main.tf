@@ -20,7 +20,7 @@ resource "aws_rds_cluster" "aurora" {
 
   engine         = var.engine
   engine_version = var.engine_version
-  engine_mode    = "serverless"
+  # engine_mode    = "serverless"
 
   db_subnet_group_name   = aws_db_subnet_group.aurora.name
   availability_zones     = var.availability_zones
@@ -38,13 +38,13 @@ resource "aws_rds_cluster" "aurora" {
     create_before_destroy = true
   }
 
-  scaling_configuration {
-    auto_pause               = var.auto_pause
-    max_capacity             = var.max_capacity
-    min_capacity             = var.min_capacity
-    seconds_until_auto_pause = var.seconds_until_auto_pause
-    timeout_action           = var.timeout_action
-  }
+  # scaling_configuration {
+  #   auto_pause               = var.auto_pause
+  #   max_capacity             = var.max_capacity
+  #   min_capacity             = var.min_capacity
+  #   seconds_until_auto_pause = var.seconds_until_auto_pause
+  #   timeout_action           = var.timeout_action
+  # }
 
   tags = merge(
     {
@@ -54,25 +54,27 @@ resource "aws_rds_cluster" "aurora" {
   )
 }
 
-# resource "aws_rds_cluster_instance" "aurora" {
+resource "aws_rds_cluster_instance" "aurora" {
 
-#   count = length(var.subnet_ids)
+  count = length(var.subnet_ids)
 
-#   identifier           = "${var.name_prefix}-aurora-instance-${count.index}"
-#   cluster_identifier   = aws_rds_cluster.aurora.id
-#   instance_class       = var.instance_class //"db.t2.small"
-#   db_subnet_group_name = aws_db_subnet_group.aurora.name
-#   publicly_accessible  = var.publicly_accessible
+  engine               = var.engine
+  engine_version       = var.engine_version
+  identifier           = "${var.name_prefix}-aurora-instance-${count.index}"
+  cluster_identifier   = aws_rds_cluster.aurora.id
+  instance_class       = var.instance_class
+  db_subnet_group_name = aws_db_subnet_group.aurora.name
+  publicly_accessible  = var.publicly_accessible
 
-#   lifecycle {
-#     create_before_destroy = true
-#   }
+  lifecycle {
+    create_before_destroy = true
+  }
 
-#   tags = merge(
-#     {
-#       Name  = "${var.name_prefix}-aurora-instance-${count.index}"
-#       Group = "${var.name_prefix}-aurora"
-#     },
-#     var.tags
-#   )
-# }
+  tags = merge(
+    {
+      Name  = "${var.name_prefix}-aurora-instance-${count.index}"
+      Group = "${var.name_prefix}-aurora"
+    },
+    var.tags
+  )
+}
