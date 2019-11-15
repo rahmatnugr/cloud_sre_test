@@ -7,7 +7,16 @@ variable "root_domain_name" {
 }
 
 variable "dns_records" {
-  type = list(map())
+  type = list(object({
+    name    = string
+    type    = string
+    records = list(string)
+  }))
+}
+
+variable "ttl" {
+  type    = string
+  default = "60"
 }
 
 variable "tags" {
