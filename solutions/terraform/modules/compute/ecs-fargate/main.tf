@@ -35,12 +35,12 @@ resource "aws_iam_role_policy_attachment" "ecs_task_exec_role" {
 resource "aws_ecs_cluster" "fargate" {
   name = "${var.name_prefix}_fargate_cluster"
 
-  # tags = merge(
-  #   {
-  #     Name = "${var.name_prefix}_fargate_cluster"
-  #   },
-  #   var.tags
-  # )
+  tags = merge(
+    {
+      Name = "${var.name_prefix}_fargate_cluster"
+    },
+    var.tags
+  )
 }
 
 resource "aws_ecs_task_definition" "fargate" {
@@ -53,12 +53,12 @@ resource "aws_ecs_task_definition" "fargate" {
   container_definitions    = var.container_definitions
   execution_role_arn       = aws_iam_role.ecs_task_exec_role.arn
 
-  # tags = merge(
-  #   {
-  #     Name = "${var.name_prefix}_fargate_task"
-  #   },
-  #   var.tags
-  # )
+  tags = merge(
+    {
+      Name = "${var.name_prefix}_fargate_task"
+    },
+    var.tags
+  )
 }
 
 resource "aws_ecs_service" "fargate" {
@@ -83,10 +83,10 @@ resource "aws_ecs_service" "fargate" {
 
   depends_on = [aws_iam_role_policy_attachment.ecs_task_exec_role]
 
-  # tags = merge(
-  #   {
-  #     Name = "${var.name_prefix}_fargate_service"
-  #   },
-  #   var.tags
-  # )
+  tags = merge(
+    {
+      Name = "${var.name_prefix}_fargate_service"
+    },
+    var.tags
+  )
 }
