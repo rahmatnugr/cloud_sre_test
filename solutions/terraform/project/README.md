@@ -61,7 +61,7 @@ This table showing AWS Service that will need to provisioned with terraform, acc
 | 1   | Cloudfront CDN   |
 | 2   | Route 53         |
 
-All of these project part will be importing modules from [`modules`](/solutions/terraform/project/modules) directory.
+All of these project part will be importing modules from [`modules`](/solutions/terraform/modules) directory.
 
 Also there is [`config`](/solutions/terraform/project/config) directory for storing remote state backend config (S3).
 

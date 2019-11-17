@@ -4,7 +4,7 @@ This directory contains terraform code for provisioning part `data-stores` of Ch
 
 ## Dependencies
 
-This project part dependents on remote state bucket of project part:
+This project part depends on remote state bucket of project part:
 
 - `core-network`
 
