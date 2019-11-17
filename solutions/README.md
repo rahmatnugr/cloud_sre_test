@@ -121,8 +121,6 @@ Instead using AWS ECS Fargate, backend app deployment moved to AWS Elastic Kuber
 
 ![](/solutions/images/HOOQ_cloud_sre_test-Solution_3.png)
 
-Diagram are accessible here: [draw.io](https://drive.google.com/file/d/1wDYrGmQ9Zd_guG8geJarMYNz1egOghnU/view?usp=sharing)
-
 Tech stack that changed from Solution 2 is only backend processing, described on table below:
 
 ### Subtituted Stack
@@ -158,3 +156,5 @@ We still need some tooling for executing this migration. Here is tool that we go
 | 4   | App Deployment and Management   | kubectl, Helm     |
 
 ---
+
+All above diagrams are accessible here: [draw.io](https://drive.google.com/file/d/1wDYrGmQ9Zd_guG8geJarMYNz1egOghnU/view?usp=sharing)
