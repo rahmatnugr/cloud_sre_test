@@ -1,0 +1,4 @@
+aurora_db_name = "chatapp_db"
+aurora_db_master_username = "chatapp"
+aurora_db_master_password = "changeme"
+domain_name = "app.com"

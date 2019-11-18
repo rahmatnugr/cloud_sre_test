@@ -1,0 +1,9 @@
+.terraform
+terraform.tfstate.d
+
+*.tfstate
+*.tfplan
+*.tfvars
+
+
+s3-backend.conf
